@@ -10,6 +10,9 @@
     "recompose": "^0.26.0",
     "react-scripts": "1.0.14"
   },
+  "engines": {
+    "node": "8.4.0"
+  },
   "scripts": {
     "start": "node static-server.js",
     "build": "react-scripts build",
