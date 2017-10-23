@@ -9,9 +9,7 @@
     "react-dom": "^16.0.0",
     "react-google-maps": "^9.0.1",
     "react-select": "^1.0.0-rc.10",
-    "recompose": "^0.26.0"
-  },
-  "devDependencies": {
+    "recompose": "^0.26.0",
     "react-scripts": "1.0.14"
   },
   "engines": {
