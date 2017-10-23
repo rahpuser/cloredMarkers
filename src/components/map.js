@@ -5,10 +5,10 @@ import Marker from './marker';
 
 const Map = compose(
   withProps({
-    googleMapURL: // TODO: create env to get keys
-    "https://maps.googleapis.com/maps/api/js?key=AIzaSyDzPKnIN2acJ9S8GYhCYsiJxAardfs0erE&v=3.exp&libraries=geometry,drawing,places",
+    googleMapURL: // TODO 
+    "https://maps.googleapis.com/maps/api/js?key=AIzaSyB1dpYuQgvLk8Nlu9fKLIABlUuquIUtCwM&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `700px` }} />,
+    containerElement: <div style={{ height: `100%` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
   withScriptjs,
@@ -23,7 +23,7 @@ const Map = compose(
       {
         markers.map((marker) => {
           return (
-            <Marker key={marker.id} marker={marker}/>
+            <Marker key={marker.id} marker={marker} keyIdentifier={marker.id} selected={props.selected} selectKey={props.selectKey}/>
           )
         })
       }

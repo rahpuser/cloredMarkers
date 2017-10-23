@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  height: 100vh;
 }
 
 .App-logo {
@@ -20,6 +21,20 @@
 
 .App-intro {
   font-size: large;
+}
+
+.App-body {
+  position: relative;
+  height: 100%;
+}
+
+.filterContainer {
+  position: absolute;
+  height: auto;
+  width: 200px;
+  top: 100px;
+  z-index: 100;
+  left: 15px;
 }
 
 @keyframes App-logo-spin {
