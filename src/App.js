@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Map from './components/map';
+import Filter from './components/filter';
 import $ from "jquery";
 import './App.css';
 
@@ -8,11 +9,11 @@ function avaragePoint(list) {
     sum[0] += point.longitude;
     sum[1] += point.latitude;
     return sum;
-  }, [0,0])
+  }, [0, 0])
 
   return {
-    lat: sum[1]/list.length,
-    lng: sum[0]/list.length,
+    lat: sum[1] / list.length,
+    lng: sum[0] / list.length,
   }
 }
 
@@ -21,15 +22,30 @@ class App extends Component {
     super(props);
     this.state = {
       markers: [],
-    }
+      options: [
+        { value: null, label: 'None' },
+        { value: 'Not Ready', label: 'Not Ready' },
+        { value: 'Vacant', label: 'Vacant' },
+        { value: 'Occupied', label: 'Occupied' },
+      ],
+      filter: null,
+      selected: null,
+    };
+
+    this.onFilterChange = this.onFilterChange.bind(this);
+    this.updateList = this.updateList.bind(this);
+    this.selectKey = this.selectKey.bind(this);
   }
-  componentDidMount() {
+
+  componentDidMount() { // TODO: add env variables loader, so this env variables are loaded on build fase
+    this.updateList();
+  }
+
+  updateList() {
     $.getJSON('https://api.rentlever.com/rentals/state?token=c0663781fe2380cddc6ee0c64e10b98c').then((markers) => {
-      // fake lat and long for each value
-      // results.forEach((result) => {
-      //   const fakePoint = generatePoint(100000, -34, 150);
-      //   Object.assign(result, fakePoint);
-      // });
+
+      markers = this.state.filter ? markers.filter(marker => marker.status === this.state.filter) : markers;
+
       const center = avaragePoint(markers);
       this.setState({
         markers,
@@ -38,13 +54,28 @@ class App extends Component {
     });
   }
 
+  onFilterChange(val) {
+    this.setState({
+      filter: val.value,
+    });
+    this.updateList();
+  }
+
+  selectKey(selected) {
+    this.setState({
+      selected,
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <p className="App-intro">
-          POC using react and google maps to list rentlever markers
-        </p>
-        <Map markers={this.state.markers} center={this.state.center}/>
+        <div className="filterContainer">
+          <Filter filter={this.state.filter} options={this.state.options} onChange={this.onFilterChange} />
+        </div>
+        <div className="App-body">
+          <Map markers={this.state.markers} center={this.state.center} selected={this.state.selected} selectKey={this.selectKey}/>
+        </div>
       </div>
     );
   }
